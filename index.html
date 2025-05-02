@@ -5,15 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Yolt-F-Tracker</title>
   <style>
-    <script>
-  function goTo(page) {
-    alert(`This would go to the ${page} module (not yet implemented).`);
-  }
-</script>
-
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    nav {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      background-color: #f0f0f0;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    nav button {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    input, select, button {
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      width: 100%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+  </style>
+</head>
 <body>
 
-  <nav style="display: flex; gap: 1rem; padding: 1rem; background-color: #f0f0f0; justify-content: center;">
+  <nav>
     <button onclick="goTo('home')">🏠 Home</button>
     <button onclick="goTo('transactions')">💸 Transactions</button>
     <button onclick="goTo('projects')">🏗 Projects</button>
@@ -21,38 +60,62 @@
     <button onclick="goTo('options')">⚙️ Options</button>
   </nav>
 
-  <div id="content">
-    <h2>🧾 Add New Transaction</h2>
-    <!-- Transaction form and table go here -->
+  <main>
+    <!-- Home Page -->
+    <section id="homePage">
+      <h2>🏠 Welcome to Yolt-F-Tracker</h2>
+      <p>Select a section from the navigation above to begin.</p>
+    </section>
 
+    <!-- Transactions Page -->
+    <section id="transactionsPage" class="active">
+      <h2>🧾 Add New Transaction</h2>
+      <form id="transactionForm">
+        <input type="date" id="date" required />
+        <select id="type" required>
+          <option value="">Type</option>
+          <option value="Income">Income</option>
+          <option value="Expense">Expense</option>
+        </select>
+        <input type="number" id="amount" placeholder="Amount" required />
+        <input type="text" id="category" placeholder="Category (e.g. Project, Business)" required />
+        <input type="text" id="description" placeholder="Description" required />
+        <button type="submit">Add Transaction</button>
+      </form>
 
-  <h2>🧾 Add New Transaction</h2>
-  <form id="transactionForm">
-    <input type="date" id="date" required />
-    <select id="type" required>
-      <option value="">Type</option>
-      <option value="Income">Income</option>
-      <option value="Expense">Expense</option>
-    </select>
-    <input type="number" id="amount" placeholder="Amount" required />
-    <input type="text" id="category" placeholder="Category (e.g. Project, Business)" required />
-    <input type="text" id="description" placeholder="Description" required />
-    <button type="submit">Add Transaction</button>
-  </form>
+      <h2>📋 All Transactions</h2>
+      <table id="transactionsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
 
-  <h2>📋 All Transactions</h2>
-  <table id="transactionsTable">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Type</th>
-        <th>Amount</th>
-        <th>Category</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    <!-- Projects Placeholder -->
+    <section id="projectsPage">
+      <h2>🏗 Projects</h2>
+      <p>Coming soon...</p>
+    </section>
+
+    <!-- Projection Placeholder -->
+    <section id="projectionPage">
+      <h2>📈 Projection</h2>
+      <p>Coming soon...</p>
+    </section>
+
+    <!-- Options Placeholder -->
+    <section id="optionsPage">
+      <h2>⚙️ Options</h2>
+      <p>Coming soon...</p>
+    </section>
+  </main>
 
   <script>
     const form = document.getElementById('transactionForm');
@@ -91,7 +154,29 @@
       loadTransactions();
     });
 
-    window.addEventListener('DOMContentLoaded', loadTransactions);
+    // Show the correct section
+    function goTo(page) {
+      const sections = document.querySelectorAll('main > section');
+      sections.forEach(sec => sec.classList.remove('active'));
+
+      const pageMap = {
+        home: 'homePage',
+        transactions: 'transactionsPage',
+        projects: 'projectsPage',
+        projection: 'projectionPage',
+        options: 'optionsPage'
+      };
+
+      const targetId = pageMap[page];
+      if (targetId) {
+        document.getElementById(targetId).classList.add('active');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadTransactions();
+      goTo('transactions'); // Start on transactions tab
+    });
   </script>
 
 </body>
