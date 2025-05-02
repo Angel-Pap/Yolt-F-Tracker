@@ -112,7 +112,56 @@
       <p>Coming soon...</p>
     </section>
   </main>
+<!-- Popup Background -->
+  
+<div id="popup" onclick="if(event.target.id==='popup'){ closePopup(); }" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+">
 
+  <!-- Popup Box -->
+  <div style="
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+  ">
+    <!-- Close Button -->
+    <button onclick="closePopup()" style="
+      position: right;
+      top: 0.5rem;
+      right: 0.5rem;
+      font-size: 1.2rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    ">✖</button>
+
+    <!-- Title -->
+    <h3>Add New Transaction</h3>
+      <form id="transactionForm">
+        <input type="date" id="date" required />
+        <select id="type" required>
+          <option value="">Type</option>
+          <option value="Income">Income</option>
+          <option value="Expense">Expense</option>
+        </select>
+        <input type="number" id="amount" placeholder="Amount" required />
+        <input type="text" id="category" placeholder="Category (e.g. Project, Business)" required />
+        <input type="text" id="description" placeholder="Description" required />
+        <button type="submit">Add Transaction</button>
+      </form>
+  </div>
+</div>
+  
   <script>
     const form = document.getElementById('transactionForm');
     const tableBody = document.querySelector('#transactionsTable tbody');
@@ -182,56 +231,5 @@
       goTo('transactions'); // Start on transactions tab
     });
   </script>
-
-<!-- Popup Background -->
-  
-<div id="popup" onclick="if(event.target.id==='popup'){ closePopup(); }" style="
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-  justify-content: center;
-  align-items: center;
-">
-
-  <!-- Popup Box -->
-  <div style="
-    background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 90%;
-    position: relative;
-  ">
-    <!-- Close Button -->
-    <button onclick="closePopup()" style="
-      position: right;
-      top: 0.5rem;
-      right: 0.5rem;
-      font-size: 1.2rem;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-    ">✖</button>
-
-    <!-- Title -->
-    <h3>Add New Transaction</h3>
-      <form id="transactionForm">
-        <input type="date" id="date" required />
-        <select id="type" required>
-          <option value="">Type</option>
-          <option value="Income">Income</option>
-          <option value="Expense">Expense</option>
-        </select>
-        <input type="number" id="amount" placeholder="Amount" required />
-        <input type="text" id="category" placeholder="Category (e.g. Project, Business)" required />
-        <input type="text" id="description" placeholder="Description" required />
-        <button type="submit">Add Transaction</button>
-      </form>
-  </div>
-</div>
-
 </body>
 </html>
