@@ -142,6 +142,7 @@
   margin-bottom: 1rem;
   width: 100%;
 ">
+<div style="flex: 1;">
   <h3 style="
     margin: 0;
     font-size: 1.2rem;
@@ -151,17 +152,19 @@
   ">
     New Transaction
   </h3>
+</div>
+     <div style="flex-shrink: 0;"> 
   <button onclick="closePopup()" style="
     font-size: 1.4rem;
     border: none;
     background: transparent;
     cursor: pointer;
-    margin-left: auto;
-    padding: 0;
+    padding: 0 0.5rem;
     line-height: 1;
   ">
     ✖
   </button>
+</div>
 </div>
     <form id="transactionForm">
         <input type="date" id="date" required />
