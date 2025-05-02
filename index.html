@@ -5,33 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Yolt-F-Tracker</title>
   <style>
-    body {
-      font-family: sans-serif;
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1rem;
-    }
-    input, select, button {
-      margin-bottom: 0.5rem;
-      padding: 0.5rem;
-      width: 100%;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 0.5rem;
-      text-align: left;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-  </style>
-</head>
 <body>
+
+  <nav style="display: flex; gap: 1rem; padding: 1rem; background-color: #f0f0f0; justify-content: center;">
+    <button onclick="goTo('home')">🏠 Home</button>
+    <button onclick="goTo('transactions')">💸 Transactions</button>
+    <button onclick="goTo('projects')">🏗 Projects</button>
+    <button onclick="goTo('projection')">📈 Projection</button>
+    <button onclick="goTo('options')">⚙️ Options</button>
+  </nav>
+
+  <div id="content">
+    <h2>🧾 Add New Transaction</h2>
+    <!-- Transaction form and table go here -->
+
 
   <h2>🧾 Add New Transaction</h2>
   <form id="transactionForm">
