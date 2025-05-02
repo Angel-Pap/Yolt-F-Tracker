@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yolt-F-Tracker</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    input, select, button {
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      width: 100%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🧾 Add New Transaction</h2>
+  <form id="transactionForm">
+    <input type="date" id="date" required />
+    <select id="type" required>
+      <option value="">Type</option>
+      <option value="Income">Income</option>
+      <option value="Expense">Expense</option>
+    </select>
+    <input type="number" id="amount" placeholder="Amount" required />
+    <input type="text" id="category" placeholder="Category (e.g. Project, Business)" required />
+    <input type="text" id="description" placeholder="Description" required />
+    <button type="submit">Add Transaction</button>
+  </form>
+
+  <h2>📋 All Transactions</h2>
+  <table id="transactionsTable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const form = document.getElementById('transactionForm');
+    const tableBody = document.querySelector('#transactionsTable tbody');
+
+    function loadTransactions() {
+      const data = JSON.parse(localStorage.getItem('transactions')) || [];
+      tableBody.innerHTML = '';
+      data.forEach(tx => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${tx.date}</td>
+          <td>${tx.type}</td>
+          <td>${tx.amount}</td>
+          <td>${tx.category}</td>
+          <td>${tx.description}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const transaction = {
+        date: document.getElementById('date').value,
+        type: document.getElementById('type').value,
+        amount: parseFloat(document.getElementById('amount').value),
+        category: document.getElementById('category').value.trim(),
+        description: document.getElementById('description').value.trim()
+      };
+
+      const data = JSON.parse(localStorage.getItem('transactions')) || [];
+      data.push(transaction);
+      localStorage.setItem('transactions', JSON.stringify(data));
+      form.reset();
+      loadTransactions();
+    });
+
+    window.addEventListener('DOMContentLoaded', loadTransactions);
+  </script>
+
+</body>
+</html>
