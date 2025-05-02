@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Yolt-F-Tracker</title>
+
+  <!-- ========== STYLES ========== -->
   <style>
     body {
       font-family: sans-serif;
@@ -17,8 +19,8 @@
       padding: 1rem;
       background-color: #f0f0f0;
       justify-content: center;
-      flex-wrap: nowrap;  /* don't wrap to next line */
-      overflow-x: auto;   /* scroll if too long */
+      flex-wrap: nowrap;
+      overflow-x: auto;
     }
     nav button {
       padding: 0.5rem 1rem;
@@ -26,7 +28,7 @@
       background: #ddd;
       border-radius: 6px;
       font-weight: bold;
-      ursor: pointer;
+      cursor: pointer;
     }
     nav button:hover {
       background: #ccc;
@@ -58,6 +60,8 @@
   </style>
 </head>
 <body>
+
+  <!-- ========== MAIN NAVIGATION ========== -->
   <nav>
     <button onclick="goTo('home')">🏠 Home</button>
     <button onclick="goTo('transactions')">💸 Transactions</button>
@@ -66,20 +70,20 @@
     <button onclick="goTo('options')">⚙️ Options</button>
   </nav>
 
+  <!-- ========== MAIN CONTENT ========== -->
   <main>
-    <!-- Home Page -->
+    <!-- === Home Page === -->
     <section id="homePage">
       <h2>🏠 Welcome to Yolt-F-Tracker</h2>
       <p>Select a section from the navigation above to begin.</p>
     </section>
 
-    <!-- Transactions Page -->
+    <!-- === Transactions Page === -->
     <section id="transactionsPage" class="active">
       <h2>📋 Transactions</h2>
       <button onclick="openPopup()" style="font-size: 1.5rem; padding: 0.3rem 1rem; margin-bottom: 1rem;">
         ➕ Add New
       </button>
-      
       <table id="transactionsTable">
         <thead>
           <tr>
@@ -94,79 +98,78 @@
       </table>
     </section>
 
-    <!-- Projects Placeholder -->
+    <!-- === Projects Page Placeholder === -->
     <section id="projectsPage">
       <h2>🏗 Projects</h2>
       <p>Coming soon...</p>
     </section>
 
-    <!-- Projection Placeholder -->
+    <!-- === Projection Page Placeholder === -->
     <section id="projectionPage">
       <h2>📈 Projection</h2>
       <p>Coming soon...</p>
     </section>
 
-    <!-- Options Placeholder -->
+    <!-- === Options Page Placeholder === -->
     <section id="optionsPage">
       <h2>⚙️ Options</h2>
       <p>Coming soon...</p>
     </section>
   </main>
-  
-<!-- Popup Background -->
-  
-<div id="popup" onclick="if(event.target.id==='popup'){ closePopup(); }" style="
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-  justify-content: center;
-  align-items: center;
-">
 
-  <!-- Popup Box -->
-  <div style="
-    background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 90%;
-    position: relative;
+  <!-- ========== POPUP OVERLAY ========== -->
+  <div id="popup" onclick="if(event.target.id==='popup'){ closePopup(); }" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
   ">
-   <div style="
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  width: 100%;
-">
-<div style="flex: 1;">
-  <h3 style="
-    margin: 0;
-    font-size: 1.2rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  ">
-    New Transaction
-  </h3>
-</div>
-     <div style="flex-shrink: 0;"> 
-  <button onclick="closePopup()" style="
-    font-size: 1.4rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    padding: 0 0.5rem;
-    line-height: 1;
-  ">
-    ✖
-  </button>
-</div>
-</div>
-    <form id="transactionForm">
+    <!-- === POPUP BOX === -->
+    <div style="
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 90%;
+      position: relative;
+    ">
+      <!-- === POPUP HEADER === -->
+      <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        width: 100%;
+      ">
+        <div style="flex: 1;">
+          <h3 style="
+            margin: 0;
+            font-size: 1.2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          ">
+            New Transaction
+          </h3>
+        </div>
+        <div style="flex-shrink: 0;">
+          <button onclick="closePopup()" style="
+            font-size: 1.4rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 0 0.5rem;
+            line-height: 1;
+          ">✖</button>
+        </div>
+      </div>
+
+      <!-- === POPUP FORM === -->
+      <form id="transactionForm">
         <input type="date" id="date" required />
         <select id="type" required>
           <option value="">Type</option>
@@ -178,13 +181,16 @@
         <input type="text" id="description" placeholder="Description" required />
         <button type="submit">Add Transaction</button>
       </form>
+    </div>
   </div>
-</div>
-  
+
+  <!-- ========== SCRIPT LOGIC ========== -->
   <script>
+    // === FORM + TABLE DOM ELEMENTS ===
     const form = document.getElementById('transactionForm');
     const tableBody = document.querySelector('#transactionsTable tbody');
 
+    // === LOAD TRANSACTIONS FROM STORAGE ===
     function loadTransactions() {
       const data = JSON.parse(localStorage.getItem('transactions')) || [];
       tableBody.innerHTML = '';
@@ -201,6 +207,7 @@
       });
     }
 
+    // === FORM SUBMIT HANDLER ===
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const transaction = {
@@ -218,7 +225,7 @@
       loadTransactions();
     });
 
-    // Show the correct section
+    // === PAGE SWITCHING ===
     function goTo(page) {
       const sections = document.querySelectorAll('main > section');
       sections.forEach(sec => sec.classList.remove('active'));
@@ -237,18 +244,21 @@
       }
     }
 
+    // === POPUP CONTROL ===
     function openPopup() {
       document.getElementById("popup").style.display = "flex";
     }
 
     function closePopup() {
-     document.getElementById("popup").style.display = "none";
+      document.getElementById("popup").style.display = "none";
     }
 
+    // === INITIAL LOAD ===
     window.addEventListener('DOMContentLoaded', () => {
       loadTransactions();
-      goTo('transactions'); // Start on transactions tab
+      goTo('transactions');
     });
   </script>
+
 </body>
 </html>
