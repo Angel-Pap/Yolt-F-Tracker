@@ -17,12 +17,19 @@
       padding: 1rem;
       background-color: #f0f0f0;
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;  /* don't wrap to next line */
+      overflow-x: auto;   /* scroll if too long */
     }
     nav button {
       padding: 0.5rem 1rem;
-      cursor: pointer;
+      border: none;
+      background: #ddd;
+      border-radius: 6px;
       font-weight: bold;
+      ursor: pointer;
+    }
+    nav button:hover {
+      background: #ccc;
     }
     input, select, button {
       margin-bottom: 0.5rem;
