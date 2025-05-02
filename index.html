@@ -34,6 +34,7 @@
       background: #ccc;
     }
     input, select, button {
+      box-sizing: border-box;
       margin-bottom: 0.5rem;
       padding: 0.5rem;
       width: 100%;
@@ -172,8 +173,8 @@
       <form id="transactionForm">
 <!-- === ROW 1: Date + Type === -->
             <div style="display: flex; gap: 1rem;">
-              <input type="date" id="date" required style="flex: 1;" />
-              <select id="type" required style="flex: 1;">
+              <input type="date" id="date" required style="width: calc(50% - 0.5rem);" />
+              <select id="type" required style="width: calc(50% - 0.5rem);">
                 <option value="">Type</option>
                 <option value="Income">Income</option>
                 <option value="Expense">Expense</option>
@@ -182,7 +183,7 @@
             </div>
 <!-- === ROW 2: Category + Wallet === -->
             <div style="display: flex; gap: 1rem;">
-              <select id="category" required style="flex: 1;" >
+              <select id="category" required style="width: calc(50% - 0.5rem);" >
                 <option value="">Category</option>
                 <option value="Advertisement">Advertisement</option>
                 <option value="Taxes">Taxes</option>
@@ -192,7 +193,7 @@
                 <option value="Cost of Business">Cost of Business</option>
                 <option value="Other">Other</option>
               </select>
-              <select id="wallet" required style="flex: 1;" >
+              <select id="wallet" required style="width: calc(50% - 0.5rem);" >
                 <option value="">Wallet</option>
                 <option value="Alpha">Alpha</option>
                 <option value="Cash">Cash</option>
@@ -201,7 +202,7 @@
             </div>
 <!-- === ROW 3: Repeatability + Amount === -->
             <div style="display: flex; gap: 1rem;">
-              <select id="repeatability" required style="flex: 1;">
+              <select id="repeatability" required style="width: calc(50% - 0.5rem);">
                 <option value="">Repeatability</option>
                 <option value="One-off">One-off</option>
                 <option value="Recurring">Recurring</option>
@@ -213,17 +214,18 @@
                 step="0.01"
                 min="0"
                 inputmode="decimal"
-                style="flex: 1; text-align: right; appearance: textfield;"
+                style="width: calc(50% - 0.5rem); text-align: right; appearance: textfield;"
                 required
                 />
             </div>
 <!-- === ROW 4: Description === -->
-            <div>
+            <div style="width: 100%;">
               <input
                 type="text"
                 id="description"
                 placeholder="Description"
                 required
+                style="width: 100%;"                
                 />
             </div>
         <button type="submit">Add Transaction</button>
