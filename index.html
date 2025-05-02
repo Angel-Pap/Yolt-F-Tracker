@@ -168,9 +168,9 @@
         </div>
       </div>
 
-      <!-- === POPUP FORM === -->
+<!-- === POPUP FORM === -->
       <form id="transactionForm">
-        <!-- === ROW 1: Date + Type === -->
+<!-- === ROW 1: Date + Type === -->
             <div style="display: flex; gap: 1rem;">
               <input type="date" id="date" required style="flex: 1;" />
               <select id="type" required style="flex: 1;">
@@ -180,6 +180,7 @@
                 <option value="Transfer">Transfer</option>
               </select>
             </div>
+<!-- === ROW 2: Category + Wallet === -->
             <div style="display: flex; gap: 1rem;">
               <select id="category" required style="flex: 1;" >
                 <option value="">Category</option>
@@ -198,22 +199,39 @@
                 <option value="Black">Black</option>
               </select>
             </div>
-            <!-- === ROW 3: Repeatability + Amount === -->
+<!-- === ROW 3: Repeatability + Amount === -->
             <div style="display: flex; gap: 1rem;">
               <select id="repeatability" required style="flex: 1;">
                 <option value="">Repeatability</option>
                 <option value="One-off">One-off</option>
                 <option value="Recurring">Recurring</option>
               </select>
-              <input type="number" id="amount" placeholder="Amount" required style="flex: 1;" />
+              <input
+                type="number"
+                id="amount"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+                inputmode="decimal"
+                style="flex: 1; text-align: right; appearance: textfield;"
+                required
+                />
             </div>
-        <input type="text" id="description" placeholder="Description" required />
+<!-- === ROW 4: Description === -->
+            <div>
+              <input
+                type="text"
+                id="description"
+                placeholder="Description"
+                required
+                />
+            </div>
         <button type="submit">Add Transaction</button>
       </form>
     </div>
   </div>
 
-  <!-- ========== SCRIPT LOGIC ========== -->
+<!-- ========== SCRIPT LOGIC ========== -->
   <script>
     // === FORM + TABLE DOM ELEMENTS ===
     const form = document.getElementById('transactionForm');
