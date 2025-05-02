@@ -218,9 +218,18 @@
 
     <!-- Title -->
     <h3>Add New Transaction</h3>
-
-    <!-- Placeholder where we'll insert the form in Step 4 -->
-    <div id="popupFormContainer"></div>
+      <form id="transactionForm">
+        <input type="date" id="date" required />
+        <select id="type" required>
+          <option value="">Type</option>
+          <option value="Income">Income</option>
+          <option value="Expense">Expense</option>
+        </select>
+        <input type="number" id="amount" placeholder="Amount" required />
+        <input type="text" id="category" placeholder="Category (e.g. Project, Business)" required />
+        <input type="text" id="description" placeholder="Description" required />
+        <button type="submit">Add Transaction</button>
+      </form>
   </div>
 </div>
 
