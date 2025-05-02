@@ -181,7 +181,7 @@
               </select>
             </div>
             <div style="display: flex; gap: 1rem;">
-              <Select id="Category" required style="flex: 1;" >
+              <select id="category" required style="flex: 1;" >
                 <option value="">Category</option>
                 <option value="Advertisement">Advertisement</option>
                 <option value="Taxes">Taxes</option>
@@ -191,15 +191,22 @@
                 <option value="Cost of Business">Cost of Business</option>
                 <option value="Other">Other</option>
               </select>
-              <Select id="Wallet" required style="flex: 1;" >
+              <select id="wallet" required style="flex: 1;" >
                 <option value="">Wallet</option>
                 <option value="Alpha">Alpha</option>
                 <option value="Cash">Cash</option>
                 <option value="Black">Black</option>
               </select>
             </div>
-        <input type="number" id="amount" placeholder="Amount" required />
-        <input type="text" id="category" placeholder="Category (e.g. Project, Business)" required />
+            <!-- === ROW 3: Repeatability + Amount === -->
+            <div style="display: flex; gap: 1rem;">
+              <select id="repeatability" required style="flex: 1;">
+                <option value="">Repeatability</option>
+                <option value="One-off">One-off</option>
+                <option value="Recurring">Recurring</option>
+              </select>
+              <input type="number" id="amount" placeholder="Amount" required style="flex: 1;" />
+            </div>
         <input type="text" id="description" placeholder="Description" required />
         <button type="submit">Add Transaction</button>
       </form>
