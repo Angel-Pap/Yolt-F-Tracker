@@ -94,6 +94,20 @@
       </table>
     </section>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     <!-- Projects Placeholder -->
     <section id="projectsPage">
       <h2>🏗 Projects</h2>
@@ -112,6 +126,7 @@
       <p>Coming soon...</p>
     </section>
   </main>
+  
 <!-- Popup Background -->
   
 <div id="popup" onclick="if(event.target.id==='popup'){ closePopup(); }" style="
@@ -134,19 +149,15 @@
     width: 90%;
     position: relative;
   ">
-    <!-- Close Button -->
-    <button onclick="closePopup()" style="
-      position: right;
-      top: 0.5rem;
-      right: 0.5rem;
-      font-size: 1.2rem;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-    ">✖</button>
-
-    <!-- Title -->
-    <h3>Add New Transaction</h3>
+   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+  <h3 style="margin: 0;">Add a Transaction</h3>
+  <button onclick="closePopup()" style="
+    font-size: 1.2rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  ">✖</button>
+</div>
       <form id="transactionForm">
         <input type="date" id="date" required />
         <select id="type" required>
