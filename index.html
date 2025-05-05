@@ -233,7 +233,6 @@
               <button type="submit" id="saveExit" style="flex: 1; background-color: #e0e0e0;">Save & Exit</button>
               <button type="submit" id="saveRepeat" style="flex: 1; background-color: #d0f0d0;">Save & Repeat</button>
             </div>
-
       </form>
     </div>
   </div>
@@ -243,6 +242,7 @@
     // === FORM + TABLE DOM ELEMENTS ===
     const form = document.getElementById('transactionForm');
     const tableBody = document.querySelector('#transactionsTable tbody');
+    let clickedButton = null;
 
     // === LOAD TRANSACTIONS FROM STORAGE ===
     function loadTransactions() {
@@ -260,24 +260,49 @@
         tableBody.appendChild(row);
       });
     }
-
+    
+    document.getElementById('saveExit').addEventListener('click', () => {
+      clickedButton = 'exit';
+    });
+    document.getElementById('saveRepeat').addEventListener('click', () => {
+      clickedButton = 'repeat';
+    });
     // === FORM SUBMIT HANDLER ===
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const transaction = {
-        date: document.getElementById('date').value,
-        type: document.getElementById('type').value,
-        amount: parseFloat(document.getElementById('amount').value),
-        category: document.getElementById('category').value.trim(),
-        description: document.getElementById('description').value.trim()
-      };
+      e.preventDefault(); // 🔒 Prevents the default page reload
 
-      const data = JSON.parse(localStorage.getItem('transactions')) || [];
-      data.push(transaction);
-      localStorage.setItem('transactions', JSON.stringify(data));
-      form.reset();
-      loadTransactions();
-    });
+// 🧱 Gather form data
+      
+        const transaction = {
+          date: document.getElementById('date').value,
+          type: document.getElementById('type').value,
+          amount: parseFloat(document.getElementById('amount').value),
+          category: document.getElementById('category').value.trim(),
+          description: document.getElementById('description').value.trim()
+        };
+      
+  // 📦 Save to local storage
+      
+        const data = JSON.parse(localStorage.getItem('transactions')) || [];
+          data.push(transaction);
+          localStorage.setItem('transactions', JSON.stringify(data));
+
+  // 🔁 Reload the updated table
+      
+        loadTransactions();
+
+  // 🧠 Check which button was clicked
+          if (clickedButton === 'exit') {
+          form.reset();     // Clears all fields
+          closePopup();     // Closes the popup window
+          } else if (clickedButton === 'repeat') {
+          form.reset();     // Clears all fields
+          document.getElementById('date').value = new Date().toISOString().split('T')[0]; // Optionally refill today’s date
+          document.getElementById('type').focus(); // Move cursor to first dropdown
+          }
+
+          clickedButton = null; // Reset for next submission
+          });
 
     // === PAGE SWITCHING ===
     function goTo(page) {
