@@ -322,17 +322,18 @@
         document.getElementById(targetId).classList.add('active');
       }
     }
-
-    // === POPUP CONTROL ===
-    function openPopup() {
-      document.getElementById("popup").style.display = "flex";
+// === POPUP CONTROL ===
+      function openPopup() {
+        document.getElementById("popup").style.display = "flex";
+// Set the date input to today
+      const today = new Date().toISOString().split('T')[0];
+        document.getElementById("date").value = today;
+        
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
     }
 
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
-    }
-
-    // === INITIAL LOAD ===
+// === INITIAL LOAD ===
     window.addEventListener('DOMContentLoaded', () => {
       loadTransactions();
       goTo('transactions');
