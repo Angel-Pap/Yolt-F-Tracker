@@ -218,6 +218,29 @@
                 required
                 />
             </div>
+<!-- === ROW 3.1: Recurring Details (hidden by default) === -->
+            <div id="recurringFields" style="display: none; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+              <div>
+                <label for="endDate">End Date (optional)</label>
+                <input type="date" id="endDate" />
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <div style="flex: 1;">
+                  <label for="repeatEveryNumber">Repeat every</label>
+                  <input type="number" id="repeatEveryNumber" min="1" max="31" value="1" />
+                </div>
+                <div style="flex: 1;">
+                  <label for="repeatEveryUnit" style="visibility: hidden;">Unit</label>
+                  <select id="repeatEveryUnit">
+                    <option value="day">Day</option>
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
+                    <option value="year">Year</option>
+                  </select>
+                </div>
+               </div>
+              </div>
+        
 <!-- === ROW 4: Description === -->
             <div style="width: 100%;">
               <input
@@ -322,16 +345,21 @@
         document.getElementById(targetId).classList.add('active');
       }
     }
+    
 // === POPUP CONTROL ===
+    
       function openPopup() {
         document.getElementById("popup").style.display = "flex";
+        
 // Set the date input to today
+        
       const today = new Date().toISOString().split('T')[0];
         document.getElementById("date").value = today;
-        
+      }
+
       function closePopup() {
         document.getElementById("popup").style.display = "none";
-    }
+      }
 
 // === INITIAL LOAD ===
     window.addEventListener('DOMContentLoaded', () => {
