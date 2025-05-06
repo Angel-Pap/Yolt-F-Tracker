@@ -361,6 +361,16 @@
         document.getElementById("popup").style.display = "none";
       }
 
+// === RECURRING FIELDS TOGGLE ===
+       document.getElementById('repeatability').addEventListener('change', function () {
+        const recurringFields = document.getElementById('recurringFields');
+        if (this.value === 'Recurring') {
+          recurringFields.style.display = 'flex';
+        } else {
+           recurringFields.style.display = 'none';
+        }
+      });
+
 // === INITIAL LOAD ===
     window.addEventListener('DOMContentLoaded', () => {
       loadTransactions();
