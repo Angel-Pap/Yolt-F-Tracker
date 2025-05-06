@@ -294,16 +294,30 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault(); // 🔒 Prevents the default page reload
 
-// 🧱 Gather form data
-      
-        const transaction = {
-          date: document.getElementById('date').value,
-          type: document.getElementById('type').value,
-          amount: parseFloat(document.getElementById('amount').value),
-          category: document.getElementById('category').value.trim(),
-          description: document.getElementById('description').value.trim()
-        };
-      
+// Gather core fields
+    const transaction = {
+      date:   document.getElementById('date').value,
+      type:   document.getElementById('type').value,
+      amount: parseFloat(document.getElementById('amount').value),
+      category:    document.getElementById('category').value.trim(),
+      description: document.getElementById('description').value.trim(),
+// Recurring logic
+      repeatability: document.getElementById('repeatability').value
+    };
+
+// If this is a recurring transaction, capture the extra fields
+    if (transaction.repeatability === 'Recurring') {
+      transaction.isRecurring       = true;
+      transaction.endDate           = document.getElementById('endDate').value || null;
+      transaction.repeatEveryNumber = parseInt(document.getElementById('repeatEveryNumber').value, 10);
+      transaction.repeatEveryUnit   = document.getElementById('repeatEveryUnit').value;
+    } else {
+      transaction.isRecurring       = false;
+      transaction.endDate           = null;
+      transaction.repeatEveryNumber = null;
+      transaction.repeatEveryUnit   = null;
+}
+
   // 📦 Save to local storage
       
         const data = JSON.parse(localStorage.getItem('transactions')) || [];
