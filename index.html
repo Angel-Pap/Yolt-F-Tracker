@@ -93,6 +93,9 @@
             <th>Amount</th>
             <th>Category</th>
             <th>Description</th>
+            <th>Recurring</th>
+            <th>End Date</th>
+            <th>Frequency</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -279,6 +282,13 @@
           <td>${tx.amount}</td>
           <td>${tx.category}</td>
           <td>${tx.description}</td>
+          <td>${tx.isRecurring ? 'Yes' : 'No'}</td>
+          <td>${tx.isRecurring && tx.endDate ? tx.endDate : '-'}</td>
+          <td>${
+            tx.isRecurring
+              ? `Every ${tx.repeatEveryNumber} ${tx.repeatEveryUnit}${tx.repeatEveryNumber>1?'s':''}`
+              : '-'
+          }</td>
         `;
         tableBody.appendChild(row);
       });
