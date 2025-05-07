@@ -92,6 +92,7 @@
             <th>Type</th>
             <th>Amount</th>
             <th>Category</th>
+            <th>Wallet</th>
             <th>Description</th>
             <th>Recurring</th>
             <th>End Date</th>
@@ -281,6 +282,7 @@
           <td>${tx.type}</td>
           <td>${tx.amount}</td>
           <td>${tx.category}</td>
+          <td>${tx.wallet}</td> 
           <td>${tx.description}</td>
           <td>${tx.isRecurring ? 'Yes' : 'No'}</td>
           <td>${tx.isRecurring && tx.endDate ? tx.endDate : '-'}</td>
@@ -306,11 +308,12 @@
 
 // Gather core fields
     const transaction = {
-      date:   document.getElementById('date').value,
-      type:   document.getElementById('type').value,
+      date:  document.getElementById('date').value,
+      type:  document.getElementById('type').value,
       amount: parseFloat(document.getElementById('amount').value),
-      category:    document.getElementById('category').value.trim(),
-      description: document.getElementById('description').value.trim(),
+      wallet:  document.getElementById('wallet').value,
+      category:  document.getElementById('category').value.trim(),
+      description:  document.getElementById('description').value.trim(),
 // Recurring logic
       repeatability: document.getElementById('repeatability').value
     };
