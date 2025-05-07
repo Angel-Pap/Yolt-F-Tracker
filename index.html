@@ -349,6 +349,8 @@
           form.reset();     // Clears all fields
           document.getElementById('date').value = new Date().toISOString().split('T')[0]; // Optionally refill today’s date
           document.getElementById('type').focus(); // Move cursor to first dropdown
+          document.getElementById("repeatability").value = "";
+          document.getElementById("recurringFields").style.display = "none";
           }
 
           clickedButton = null; // Reset for next submission
@@ -375,15 +377,20 @@
     
 // === POPUP CONTROL ===
     
-      function openPopup() {
-        document.getElementById("popup").style.display = "flex";
-        
-// Set the date input to today
-        
-      const today = new Date().toISOString().split('T')[0];
-        document.getElementById("date").value = today;
-      }
+ function openPopup() {
+  document.getElementById("popup").style.display = "flex";
 
+  // Reset form fields
+  form.reset();
+
+  // Auto-fill today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById("date").value = today;
+
+  // Hide recurring details until user selects it
+  document.getElementById("repeatability").value = "";
+  document.getElementById("recurringFields").style.display = "none";
+}
       function closePopup() {
         document.getElementById("popup").style.display = "none";
       }
