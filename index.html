@@ -283,33 +283,33 @@
       tableBody.innerHTML = '';
       data.forEach(tx => {
         const row = document.createElement('tr');
-       row.innerHTML = `
-  <td>${tx.id}</td>
-  <td>${tx.timestamp}</td>
-  <td>${tx.date}</td>
-  <td>${tx.type}</td>
-  <td>${tx.amount}</td>
-  <td>${tx.category}</td>
-  <td>${tx.wallet}</td>
-  <td>${tx.description}</td>
-  <td>${tx.isRecurring ? 'Yes' : 'No'}</td>
-  <td>${tx.isRecurring && tx.endDate ? tx.endDate : '-'}</td>
-  <td>${
+      row.innerHTML =
+  '<td>' + tx.id + '</td>' +
+  '<td>' + tx.timestamp + '</td>' +
+  '<td>' + tx.startDate + '</td>' +
+  '<td>' + tx.type + '</td>' +
+  '<td>' + tx.amount + '</td>' +
+  '<td>' + tx.walletOrCategory + '</td>' +
+  '<td>' + tx.description + '</td>' +
+  '<td>' + (tx.isRecurring ? 'Yes' : 'No') + '</td>' +
+  '<td>' + (tx.isRecurring && tx.endDate ? tx.endDate : '-') + '</td>' +
+  '<td>' + (
     tx.isRecurring
-      ? \`Every ${tx.repeatEveryNumber} ${tx.repeatEveryUnit}\${tx.repeatEveryNumber>1?'s':''}\`
+      ? 'Every ' + tx.repeatEveryNumber + ' ' + tx.repeatEveryUnit + (tx.repeatEveryNumber > 1 ? 's' : '')
       : '-'
-  }</td>
-`;
+  ) + '</td>';
+
    tableBody.appendChild(row);
       });
     }
     
-    document.getElementById('saveExit').addEventListener('click', () => {
-      clickedButton = 'exit';
-    });
-    document.getElementById('saveRepeat').addEventListener('click', () => {
-      clickedButton = 'repeat';
-    });
+    document.getElementById('saveNew').addEventListener('click', () => {
+  clickedButton = 'new';
+});
+document.getElementById('saveSame').addEventListener('click', () => {
+  clickedButton = 'same';
+});
+
     // === FORM SUBMIT HANDLER ===
     form.addEventListener('submit', (e) => {
       e.preventDefault(); // 🔒 Prevents the default page reload
@@ -409,16 +409,6 @@ transaction.id = 'T-' + String(nextNum).padStart(9, '0');
       function closePopup() {
         document.getElementById("popup").style.display = "none";
       }
-
-// === RECURRING FIELDS TOGGLE ===
-       document.getElementById('repeatability').addEventListener('change', function () {
-        const recurringFields = document.getElementById('recurringFields');
-        if (this.value === 'Recurring') {
-          recurringFields.style.display = 'flex';
-        } else {
-           recurringFields.style.display = 'none';
-        }
-      });
     
 // === TOGGLE END DATE & INDEFINITE VISIBILITY ===
 document.getElementById('isRecurring').addEventListener('change', function() {
