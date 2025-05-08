@@ -90,7 +90,7 @@
           <tr>
             <th>ID</th>
             <th>Timestamp</th>
-            <th>Date</th>
+            <th>Start Date</th>
             <th>Type</th>
             <th>Amount</th>
             <th>Category</th>
@@ -323,7 +323,7 @@ transaction.id = 'T-' + String(nextNum).padStart(9, '0');
 
 // Gather core fields
     const transaction = {
-      date:  document.getElementById('date').value,
+      startDate: document.getElementById('startDate').value,
       type:  document.getElementById('type').value,
       amount: parseFloat(document.getElementById('amount').value),
       wallet:  document.getElementById('wallet').value,
@@ -362,7 +362,7 @@ transaction.id = 'T-' + String(nextNum).padStart(9, '0');
           closePopup();     // Closes the popup window
           } else if (clickedButton === 'repeat') {
           form.reset();     // Clears all fields
-          document.getElementById('date').value = new Date().toISOString().split('T')[0]; // Optionally refill today’s date
+          document.getElementById('startDate').value = new Date().toISOString().split('T')[0]; // Optionally refill today’s date
           document.getElementById('type').focus(); // Move cursor to first dropdown
           document.getElementById("repeatability").value = "";
           document.getElementById("recurringFields").style.display = "none";
