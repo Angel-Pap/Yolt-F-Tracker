@@ -372,23 +372,21 @@ transaction.id = 'T-' + String(nextNum).padStart(9, '0');
       
         loadTransactions();
 
-  // 🧠 Check which button was clicked
-  if (clickedButton === 'new') {
-  // Save & New: clear form and leave popup open
+// 🧠 Check which Save button was clicked
+if (clickedButton === 'new') {
+  // Save & New: reset form, keep popup open
   form.reset();
-  // optionally re-populate the startDate:
+  // refill start date
   document.getElementById('startDate').value = new Date().toISOString().split('T')[0];
+  // hide recurring controls
+  document.getElementById('endDateContainer').style.display = 'none';
+  document.getElementById('isIndefiniteContainer').style.display = 'none';
 } else if (clickedButton === 'same') {
-  // Save & Same: keep all fields as-is
-  // no reset()
+  // Save & Same: do nothing, keep fields intact
 }
-          document.getElementById('startDate').value = new Date().toISOString().split('T')[0]; // Optionally refill today’s date
-          document.getElementById('type').focus(); // Move cursor to first dropdown
-          document.getElementById("repeatability").value = "";
-          document.getElementById("recurringFields").style.display = "none";
-
-          clickedButton = null; // Reset for next submission
-          });
+// clear the tracker
+clickedButton = null;
+});
 
     // === PAGE SWITCHING ===
     function goTo(page) {
