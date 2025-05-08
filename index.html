@@ -223,31 +223,46 @@
     </div>
   </div>
 
-  <!-- ROW 3: Wallet From + Wallet To/Category -->
-  <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
-    <div style="flex:1;">
-      <label for="walletFrom">Wallet From</label>
-      <select id="walletFrom" required style="width:100%;">
-        <option value="">Wallet From</option>
-        <option value="Alpha">Alpha</option>
-        <option value="Cash">Cash</option>
-        <option value="Black">Black</option>
-      </select>
-    </div>
-    <div style="flex:1;">
-      <label for="walletOrCategory">Wallet To / Category</label>
-      <select id="walletOrCategory" required style="width:100%;">
-        <option value="">Category</option>
-        <option value="Advertisement">Advertisement</option>
-        <option value="Taxes">Taxes</option>
-        <option value="Bank Fees">Bank Fees</option>
-        <option value="Tools">Tools</option>
-        <option value="Hardware">Hardware</option>
-        <option value="Cost of Business">Cost of Business</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
+ <!-- ROW 3: Wallet From + Category + Wallet To -->
+<div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+  <!-- Wallet From (always visible) -->
+  <div style="flex:1;">
+    <label for="walletFrom">Wallet From</label>
+    <select id="walletFrom" required style="width:100%;">
+      <option value="">Select…</option>
+      <option value="Alpha">Alpha</option>
+      <option value="Cash">Cash</option>
+      <option value="Black">Black</option>
+    </select>
   </div>
+
+  <!-- Category (visible for Income/Expense) -->
+  <div id="categoryContainer" style="flex:1;">
+    <label for="category">Category</label>
+    <select id="category" required style="width:100%;">
+      <option value="">Select…</option>
+      <option value="Advertisement">Advertisement</option>
+      <option value="Taxes">Taxes</option>
+      <option value="Bank Fees">Bank Fees</option>
+      <option value="Tools">Tools</option>
+      <option value="Hardware">Hardware</option>
+      <option value="Cost of Business">Cost of Business</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <!-- Wallet To (visible for Transfer only) -->
+  <div id="walletToContainer" style="flex:1; display:none;">
+    <label for="walletTo">Wallet To</label>
+    <select id="walletTo" required style="width:100%;">
+      <option value="">Select…</option>
+      <option value="Alpha">Alpha</option>
+      <option value="Cash">Cash</option>
+      <option value="Black">Black</option>
+    </select>
+  </div>
+</div>
+
 
   <!-- ROW 4: Description -->
   <div style="margin-top:0.5rem;">
@@ -314,13 +329,6 @@ document.getElementById('saveSame').addEventListener('click', () => {
     form.addEventListener('submit', (e) => {
       e.preventDefault(); // 🔒 Prevents the default page reload
 
-      // === ADD TIMESTAMP & ID ===
-const now = new Date();
-transaction.timestamp = now.toISOString(); // full ISO timestamp
-const existing = JSON.parse(localStorage.getItem('transactions')) || [];
-const nextNum = existing.length + 1;
-transaction.id = 'T-' + String(nextNum).padStart(9, '0');
-
 // Gather core fields
     const transaction = {
       startDate: document.getElementById('startDate').value,
@@ -332,6 +340,13 @@ transaction.id = 'T-' + String(nextNum).padStart(9, '0');
 // Recurring logic
       repeatability: document.getElementById('repeatability').value
     };
+      
+ // === ADD TIMESTAMP & ID ===
+const now = new Date();
+transaction.timestamp = now.toISOString(); // full ISO timestamp
+const existing = JSON.parse(localStorage.getItem('transactions')) || [];
+const nextNum = existing.length + 1;
+transaction.id = 'T-' + String(nextNum).padStart(9, '0');
 
 // If this is a recurring transaction, capture the extra fields
     if (transaction.repeatability === 'Recurring') {
