@@ -373,11 +373,15 @@ transaction.id = 'T-' + String(nextNum).padStart(9, '0');
         loadTransactions();
 
   // 🧠 Check which button was clicked
-          if (clickedButton === 'exit') {
-          form.reset();     // Clears all fields
-          closePopup();     // Closes the popup window
-          } else if (clickedButton === 'repeat') {
-          form.reset();     // Clears all fields
+  if (clickedButton === 'new') {
+  // Save & New: clear form and leave popup open
+  form.reset();
+  // optionally re-populate the startDate:
+  document.getElementById('startDate').value = new Date().toISOString().split('T')[0];
+} else if (clickedButton === 'same') {
+  // Save & Same: keep all fields as-is
+  // no reset()
+}
           document.getElementById('startDate').value = new Date().toISOString().split('T')[0]; // Optionally refill today’s date
           document.getElementById('type').focus(); // Move cursor to first dropdown
           document.getElementById("repeatability").value = "";
