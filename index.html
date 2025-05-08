@@ -310,6 +310,13 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault(); // 🔒 Prevents the default page reload
 
+      // === ADD TIMESTAMP & ID ===
+const now = new Date();
+transaction.timestamp = now.toISOString(); // full ISO timestamp
+const existing = JSON.parse(localStorage.getItem('transactions')) || [];
+const nextNum = existing.length + 1;
+transaction.id = 'T-' + String(nextNum).padStart(9, '0');
+
 // Gather core fields
     const transaction = {
       date:  document.getElementById('date').value,
@@ -408,6 +415,47 @@
            recurringFields.style.display = 'none';
         }
       });
+    
+// === TOGGLE END DATE & INDEFINITE VISIBILITY ===
+document.getElementById('isRecurring').addEventListener('change', function() {
+  const show = this.checked;
+  document.getElementById('endDateContainer').style.display = show ? 'block' : 'none';
+  document.getElementById('isIndefiniteContainer').style.display = show ? 'block' : 'none';
+  if (!show) document.getElementById('isIndefinite').checked = false;
+});
+
+document.getElementById('isIndefinite').addEventListener('change', function() {
+  const endDate = document.getElementById('endDate');
+  if (this.checked) {
+    endDate.value = '2060-12-31';
+    endDate.disabled = true;
+  } else {
+    endDate.value = '';
+    endDate.disabled = false;
+  }
+});
+
+// === SWAP WALLET-TO / CATEGORY BASED ON TYPE ===
+document.getElementById('type').addEventListener('change', function() {
+  const sel = document.getElementById('walletOrCategory');
+  if (this.value === 'Transfer') {
+    sel.innerHTML = `
+      <option value="">Wallet To</option>
+      <option value="Alpha">Alpha</option>
+      <option value="Cash">Cash</option>
+      <option value="Black">Black</option>`;
+  } else {
+    sel.innerHTML = `
+      <option value="">Category</option>
+      <option value="Advertisement">Advertisement</option>
+      <option value="Taxes">Taxes</option>
+      <option value="Bank Fees">Bank Fees</option>
+      <option value="Tools">Tools</option>
+      <option value="Hardware">Hardware</option>
+      <option value="Cost of Business">Cost of Business</option>
+      <option value="Other">Other</option>`;
+  }
+});
 
 // === INITIAL LOAD ===
     window.addEventListener('DOMContentLoaded', () => {
