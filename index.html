@@ -173,94 +173,98 @@
         </div>
       </div>
 
-<!-- === POPUP FORM === -->
-      <form id="transactionForm">
-<!-- === ROW 1: Date + Type === -->
-            <div style="display: flex; gap: 1rem;">
-              <input type="date" id="date" required style="width: calc(50% - 0.5rem);" />
-              <select id="type" required style="width: calc(50% - 0.5rem);">
-                <option value="">Type</option>
-                <option value="Income">Income</option>
-                <option value="Expense">Expense</option>
-                <option value="Transfer">Transfer</option>
-              </select>
-            </div>
-<!-- === ROW 2: Category + Wallet === -->
-            <div style="display: flex; gap: 1rem;">
-              <select id="category" required style="width: calc(50% - 0.5rem);" >
-                <option value="">Category</option>
-                <option value="Advertisement">Advertisement</option>
-                <option value="Taxes">Taxes</option>
-                <option value="Bank Fees">Bank Fees</option>
-                <option value="Tools">Tools</option>
-                <option value="Hardware">Hardware</option>
-                <option value="Cost of Business">Cost of Business</option>
-                <option value="Other">Other</option>
-              </select>
-              <select id="wallet" required style="width: calc(50% - 0.5rem);" >
-                <option value="">Wallet</option>
-                <option value="Alpha">Alpha</option>
-                <option value="Cash">Cash</option>
-                <option value="Black">Black</option>
-              </select>
-            </div>
-<!-- === ROW 3: Repeatability + Amount === -->
-            <div style="display: flex; gap: 1rem;">
-              <select id="repeatability" required style="width: calc(50% - 0.5rem);">
-                <option value="">Repeatability</option>
-                <option value="One-off">One-off</option>
-                <option value="Recurring">Recurring</option>
-              </select>
-              <input
-                type="number"
-                id="amount"
-                placeholder="0.00"
-                step="0.01"
-                min="0"
-                inputmode="decimal"
-                style="width: calc(50% - 0.5rem); text-align: right; appearance: textfield;"
-                required
-                />
-            </div>
-<!-- === ROW 3.1: Recurring Details (hidden by default) === -->
-            <div id="recurringFields" style="display: none; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
-              <div>
-                <label for="endDate">End Date (optional)</label>
-                <input type="date" id="endDate" />
-              </div>
-              <div style="display: flex; gap: 0.5rem;">
-                <div style="flex: 1;">
-                  <label for="repeatEveryNumber">Repeat every</label>
-                  <input type="number" id="repeatEveryNumber" min="1" max="31" value="1" />
-                </div>
-                <div style="flex: 1;">
-                  <label for="repeatEveryUnit" style="visibility: hidden;">Unit</label>
-                  <select id="repeatEveryUnit">
-                    <option value="day">Day</option>
-                    <option value="week">Week</option>
-                    <option value="month">Month</option>
-                    <option value="year">Year</option>
-                  </select>
-                </div>
-               </div>
-              </div>
-        
-<!-- === ROW 4: Description === -->
-            <div style="width: 100%;">
-              <input
-                type="text"
-                id="description"
-                placeholder="Description"
-                required
-                style="width: 100%;"                
-                />
-            </div>
-<!-- === ACTION BUTTONS === -->
-            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-              <button type="submit" id="saveExit" style="flex: 1; background-color: #e0e0e0;">Save & Exit</button>
-              <button type="submit" id="saveRepeat" style="flex: 1; background-color: #d0f0d0;">Save & Repeat</button>
-            </div>
-      </form>
+<!-- === POPUP FORM (REDESIGNED) === -->
+<form id="transactionForm">
+  <!-- ROW 1: Start Date + Recurring + End Date + Indefinite -->
+  <div style="display:flex; gap:0.5rem; align-items:center;">
+    <div style="flex:1;">
+      <label for="startDate">Start Date</label>
+      <input type="date" id="startDate" required style="width:100%;" />
+    </div>
+    <div style="flex:1;">
+      <label for="isRecurring">Recurring</label>
+      <input type="checkbox" id="isRecurring" />
+    </div>
+    <div id="endDateContainer" style="flex:1; display:none;">
+      <label for="endDate">End Date</label>
+      <input type="date" id="endDate" />
+    </div>
+    <div id="isIndefiniteContainer" style="flex:1; display:none;">
+      <label for="isIndefinite">Indefinite</label>
+      <input type="checkbox" id="isIndefinite" />
+    </div>
+  </div>
+
+  <!-- ROW 2: Type + Amount -->
+  <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+    <div style="flex:1;">
+      <label for="type">Type</label>
+      <select id="type" required style="width:100%;">
+        <option value="">Type</option>
+        <option value="Income">Income</option>
+        <option value="Expense">Expense</option>
+        <option value="Transfer">Transfer</option>
+      </select>
+    </div>
+    <div style="flex:1;">
+      <label for="amount">Amount</label>
+      <input
+        type="number"
+        id="amount"
+        placeholder="0.00"
+        step="0.01"
+        min="0"
+        inputmode="decimal"
+        style="width:100%; text-align:right; appearance:textfield;"
+        required
+      />
+    </div>
+  </div>
+
+  <!-- ROW 3: Wallet From + Wallet To/Category -->
+  <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+    <div style="flex:1;">
+      <label for="walletFrom">Wallet From</label>
+      <select id="walletFrom" required style="width:100%;">
+        <option value="">Wallet From</option>
+        <option value="Alpha">Alpha</option>
+        <option value="Cash">Cash</option>
+        <option value="Black">Black</option>
+      </select>
+    </div>
+    <div style="flex:1;">
+      <label for="walletOrCategory">Wallet To / Category</label>
+      <select id="walletOrCategory" required style="width:100%;">
+        <option value="">Category</option>
+        <option value="Advertisement">Advertisement</option>
+        <option value="Taxes">Taxes</option>
+        <option value="Bank Fees">Bank Fees</option>
+        <option value="Tools">Tools</option>
+        <option value="Hardware">Hardware</option>
+        <option value="Cost of Business">Cost of Business</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ROW 4: Description -->
+  <div style="margin-top:0.5rem;">
+    <label for="description">Description</label>
+    <input
+      type="text"
+      id="description"
+      placeholder="Description"
+      required
+      style="width:100%;"
+    />
+  </div>
+
+  <!-- ROW 5: Action Buttons -->
+  <div style="display:flex; gap:0.5rem; margin-top:1rem;">
+    <button type="submit" id="saveNew" style="flex:1;">Save & New</button>
+    <button type="submit" id="saveSame" style="flex:1;">Save & Same</button>
+  </div>
+</form>
     </div>
   </div>
 
