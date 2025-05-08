@@ -413,6 +413,12 @@ transaction.id = 'T-' + String(nextNum).padStart(9, '0');
   // Reset form fields
   form.reset();
 
+  // Reset Category/Wallet To visibility
+document.getElementById('categoryContainer').style.display    = 'block';
+document.getElementById('category').required                   = true;
+document.getElementById('walletToContainer').style.display     = 'none';
+document.getElementById('walletTo').required                   = false;
+   
   // Auto-fill today's date
   const today = new Date().toISOString().split('T')[0];
   document.getElementById("date").value = today;
@@ -444,25 +450,25 @@ document.getElementById('isIndefinite').addEventListener('change', function() {
   }
 });
 
-// === SWAP WALLET-TO / CATEGORY BASED ON TYPE ===
+// === TOGGLE Category vs. Wallet To based on Type ===
 document.getElementById('type').addEventListener('change', function() {
-  const sel = document.getElementById('walletOrCategory');
+  const categoryContainer = document.getElementById('categoryContainer');
+  const walletToContainer  = document.getElementById('walletToContainer');
+  const categorySelect    = document.getElementById('category');
+  const walletToSelect    = document.getElementById('walletTo');
+
   if (this.value === 'Transfer') {
-    sel.innerHTML = `
-      <option value="">Wallet To</option>
-      <option value="Alpha">Alpha</option>
-      <option value="Cash">Cash</option>
-      <option value="Black">Black</option>`;
+    // For transfers: hide Category, show Wallet To
+    categoryContainer.style.display    = 'none';
+    categorySelect.required            = false;
+    walletToContainer.style.display    = 'block';
+    walletToSelect.required            = true;
   } else {
-    sel.innerHTML = `
-      <option value="">Category</option>
-      <option value="Advertisement">Advertisement</option>
-      <option value="Taxes">Taxes</option>
-      <option value="Bank Fees">Bank Fees</option>
-      <option value="Tools">Tools</option>
-      <option value="Hardware">Hardware</option>
-      <option value="Cost of Business">Cost of Business</option>
-      <option value="Other">Other</option>`;
+    // For income/expense: show Category, hide Wallet To
+    categoryContainer.style.display    = 'block';
+    categorySelect.required            = true;
+    walletToContainer.style.display    = 'none';
+    walletToSelect.required            = false;
   }
 });
 
