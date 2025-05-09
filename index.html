@@ -331,16 +331,31 @@ document.getElementById('saveSame').addEventListener('click', () => {
       e.preventDefault(); // 🔒 Prevents the default page reload
 
 // Gather core fields
-    const transaction = {
-      startDate: document.getElementById('startDate').value,
-      type:  document.getElementById('type').value,
-      amount: parseFloat(document.getElementById('amount').value),
-      wallet:  document.getElementById('wallet').value,
-      category:  document.getElementById('category').value.trim(),
-      description:  document.getElementById('description').value.trim(),
-// Recurring logic
-      repeatability: document.getElementById('repeatability').value
-    };
+const transaction = {
+  startDate:   document.getElementById('startDate').value,
+  type:        document.getElementById('type').value,
+  amount:      parseFloat(document.getElementById('amount').value),
+  walletFrom:  document.getElementById('walletFrom').value,
+  walletTo:    document.getElementById('type').value === 'Transfer'
+                  ? document.getElementById('walletTo').value
+                  : null,
+  category:    document.getElementById('type').value !== 'Transfer'
+                  ? document.getElementById('category').value.trim()
+                  : null,
+  description: document.getElementById('description').value.trim(),
+  isRecurring: document.getElementById('isRecurring').checked
+};
+
+// If "Indefinite" is checked, force endDate to 2060-12-31
+if (transaction.isRecurring) {
+  const indefinite = document.getElementById('isIndefinite').checked;
+  transaction.endDate = indefinite
+    ? '2060-12-31'
+    : document.getElementById('endDate').value || null;
+} else {
+  transaction.endDate = null;
+}
+
       
  // === ADD TIMESTAMP & ID ===
 const now = new Date();
