@@ -296,25 +296,25 @@
     function loadTransactions() {
       const data = JSON.parse(localStorage.getItem('transactions')) || [];
       tableBody.innerHTML = '';
-      data.forEach(tx => {
-        const row = document.createElement('tr');
-      row.innerHTML =
-  '<td>' + tx.id + '</td>' +
-  '<td>' + tx.timestamp + '</td>' +
-  '<td>' + tx.startDate + '</td>' +
-  '<td>' + tx.type + '</td>' +
-  '<td>' + tx.amount + '</td>' +
-  '<td>' + tx.walletOrCategory + '</td>' +
-  '<td>' + tx.description + '</td>' +
-  '<td>' + (tx.isRecurring ? 'Yes' : 'No') + '</td>' +
-  '<td>' + (tx.isRecurring && tx.endDate ? tx.endDate : '-') + '</td>' +
-  '<td>' + (
+      row.innerHTML = `
+  <td>${tx.id}</td>
+  <td>${tx.timestamp}</td>
+  <td>${tx.startDate}</td>
+  <td>${tx.type}</td>
+  <td>${tx.amount}</td>
+  <td>${tx.category || '-'}</td>
+  <td>
+    ${tx.walletFrom}${tx.walletTo ? ' → ' + tx.walletTo : ''}
+  </td>
+  <td>${tx.description}</td>
+  <td>${tx.isRecurring ? 'Yes' : 'No'}</td>
+  <td>${tx.endDate || '-'}</td>
+  <td>${
     tx.isRecurring
-      ? 'Every ' + tx.repeatEveryNumber + ' ' + tx.repeatEveryUnit + (tx.repeatEveryNumber > 1 ? 's' : '')
+      ? `Every ${tx.repeatEveryNumber} ${tx.repeatEveryUnit}${tx.repeatEveryNumber>1?'s':''}`
       : '-'
-  ) + '</td>';
-
-   tableBody.appendChild(row);
+  }</td>
+`;
       });
     }
     
