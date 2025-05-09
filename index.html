@@ -296,6 +296,8 @@
     function loadTransactions() {
       const data = JSON.parse(localStorage.getItem('transactions')) || [];
       tableBody.innerHTML = '';
+ data.forEach(tx => {
+        const row = document.createElement('tr');
       row.innerHTML = `
   <td>${tx.id}</td>
   <td>${tx.timestamp}</td>
