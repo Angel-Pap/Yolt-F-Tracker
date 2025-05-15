@@ -4,495 +4,140 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Yolt-F-Tracker</title>
-
-  <!-- ========== STYLES ========== -->
   <style>
-    body {
-      font-family: sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 1rem;
+    body { font-family: sans-serif; max-width:800px; margin:0 auto; padding:1rem; }
+    nav { display:flex; gap:1rem; padding:1rem; background:#f0f0f0; justify-content:center; }
+    nav button { padding:.5rem 1rem; border:none; background:#ddd; border-radius:6px; font-weight:bold; cursor:pointer; }
+    nav button:hover { background:#ccc; }
+    section { display:none; }
+    section.active { display:block; }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; }
+    th,td { border:1px solid #ccc; padding:.5rem; text-align:left; }
+    th { background:#f4f4f4; }
+    /* popup base */
+    .popup-overlay {
+      display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.6); z-index:1000;
+      justify-content:center; align-items:center;
     }
-    nav {
-      display: flex;
-      gap: 1rem;
-      padding: 1rem;
-      background-color: #f0f0f0;
-      justify-content: center;
-      flex-wrap: nowrap;
-      overflow-x: auto;
+    .popup {
+      background:#fff; padding:1.5rem; border-radius:8px; width:90%;max-width:360px; position:relative;
     }
-    nav button {
-      padding: 0.5rem 1rem;
-      border: none;
-      background: #ddd;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
+    .popup h3 { margin-top:0; }
+    .popup button.close {
+      position:absolute; top:.5rem; right:.5rem;
+      border:none; background:transparent; font-size:1.2rem; cursor:pointer;
     }
-    nav button:hover {
-      background: #ccc;
+    .popup form input, .popup form label, .popup form button {
+      display:block; width:100%; margin-bottom:.75rem;
     }
-    input, select, button {
-      box-sizing: border-box;
-      margin-bottom: 0.5rem;
-      padding: 0.5rem;
-      width: 100%;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 0.5rem;
-      text-align: left;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-    section {
-      display: none;
-    }
-    section.active {
-      display: block;
-    }
+    .popup form button { cursor:pointer; }
   </style>
 </head>
 <body>
 
-  <!-- ========== MAIN NAVIGATION ========== -->
+  <!-- NAV -->
   <nav>
     <button onclick="goTo('home')">🏠 Home</button>
+    <button onclick="goTo('recurring')">🔁 Recurring</button>
     <button onclick="goTo('transactions')">💸 Transactions</button>
     <button onclick="goTo('projects')">🏗 Projects</button>
     <button onclick="goTo('projection')">📈 Projection</button>
     <button onclick="goTo('options')">⚙️ Options</button>
   </nav>
 
-  <!-- ========== MAIN CONTENT ========== -->
+  <!-- MAIN -->
   <main>
-    <!-- === Home Page === -->
     <section id="homePage">
-      <h2>🏠 Welcome to Yolt-F-Tracker</h2>
-      <p>Select a section from the navigation above to begin.</p>
+      <h2>🏠 Welcome</h2>
+      <p>Select a section above to get started.</p>
     </section>
 
-    <!-- === Transactions Page === -->
-    <section id="transactionsPage" class="active">
-      <h2>📋 Transactions</h2>
-      <button onclick="openPopup()" style="font-size: 1.5rem; padding: 0.3rem 1rem; margin-bottom: 1rem;">
-        ➕ Add New
-      </button>
-      <table id="transactionsTable">
+    <section id="recurringPage">
+      <h2>🔁 Recurring Transactions</h2>
+      <button onclick="openRecPopup()">➕ Add Recurring</button>
+      <table id="recurringTable">
         <thead>
-          <tr>
-            <th>ID</th>
-            <th>Timestamp</th>
-            <th>Start Date</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Wallet</th>
-            <th>Description</th>
-            <th>Recurring</th>
-            <th>End Date</th>
-            <th>Frequency</th>
-          </tr>
+          <tr><th>ID</th><th>Name</th><th>Start Date</th><th>Amount</th><th>History</th><th>Actions</th></tr>
         </thead>
         <tbody></tbody>
       </table>
     </section>
 
-    <!-- === Projects Page Placeholder === -->
+    <section id="transactionsPage">
+      <h2>💸 Transactions</h2>
+      <p>…coming soon.</p>
+    </section>
+
     <section id="projectsPage">
       <h2>🏗 Projects</h2>
-      <p>Coming soon...</p>
+      <p>…coming soon.</p>
     </section>
 
-    <!-- === Projection Page Placeholder === -->
     <section id="projectionPage">
       <h2>📈 Projection</h2>
-      <p>Coming soon...</p>
+      <p>…coming soon.</p>
     </section>
 
-    <!-- === Options Page Placeholder === -->
     <section id="optionsPage">
       <h2>⚙️ Options</h2>
-      <p>Coming soon...</p>
+      <p>…coming soon.</p>
     </section>
   </main>
 
-  <!-- ========== POPUP OVERLAY ========== -->
-  <div id="popup" onclick="if(event.target.id==='popup'){ closePopup(); }" style="
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-  ">
-    <!-- === POPUP BOX === -->
-    <div style="
-      background: #fff;
-      padding: 2rem;
-      border-radius: 8px;
-      max-width: 400px;
-      width: 90%;
-      position: relative;
-    ">
-      <!-- === POPUP HEADER === -->
-      <div style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        width: 100%;
-      ">
-        <div style="flex: 1;">
-          <h3 style="
-            margin: 0;
-            font-size: 1.2rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          ">
-            New Transaction
-          </h3>
-        </div>
-        <div style="flex-shrink: 0;">
-          <button onclick="closePopup()" style="
-            font-size: 1.4rem;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            padding: 0 0.5rem;
-            line-height: 1;
-          ">✖</button>
-        </div>
-      </div>
+  <!-- RECURRING POPUP -->
+  <div id="recurringPopup" class="popup-overlay" onclick="if(event.target.id==='recurringPopup') closeRecPopup()">
+    <div class="popup">
+      <button class="close" onclick="closeRecPopup()">✖</button>
+      <h3>New Recurring Rule</h3>
+      <form id="recurringForm">
+        <label for="recName">Name</label>
+        <input type="text" id="recName" required />
 
-<!-- === POPUP FORM (REDESIGNED) === -->
-<form id="transactionForm">
-  <!-- ROW 1: Start Date + Recurring + End Date + Indefinite -->
-  <div style="display:flex; gap:0.5rem; align-items:center;">
-    <div style="flex:1;">
-      <label for="startDate">Start Date</label>
-      <input type="date" id="startDate" required style="width:100%;" />
-    </div>
-    <div style="flex:1;">
-      <label for="isRecurring">Recurring</label>
-      <input type="checkbox" id="isRecurring" />
-    </div>
-    <div id="endDateContainer" style="flex:1; display:none;">
-      <label for="endDate">End Date</label>
-      <input type="date" id="endDate" />
-    </div>
-    <div id="isIndefiniteContainer" style="flex:1; display:none;">
-      <label for="isIndefinite">Indefinite</label>
-      <input type="checkbox" id="isIndefinite" />
+        <label for="recStartDate">Start Date</label>
+        <input type="date" id="recStartDate" required />
+
+        <label for="recAmount">Monthly Amount</label>
+        <input type="number" id="recAmount" step="0.01" min="0" required />
+
+        <button type="submit">Save</button>
+      </form>
     </div>
   </div>
 
-  <!-- ROW 2: Type + Amount -->
-  <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
-    <div style="flex:1;">
-      <label for="type">Type</label>
-      <select id="type" required style="width:100%;">
-        <option value="">Type</option>
-        <option value="Income">Income</option>
-        <option value="Expense">Expense</option>
-        <option value="Transfer">Transfer</option>
-      </select>
-    </div>
-    <div style="flex:1;">
-      <label for="amount">Amount</label>
-      <input
-        type="number"
-        id="amount"
-        placeholder="0.00"
-        step="0.01"
-        min="0"
-        inputmode="decimal"
-        style="width:100%; text-align:right; appearance:textfield;"
-        required
-      />
-    </div>
-  </div>
-
- <!-- ROW 3: Wallet From + Category + Wallet To -->
-<div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
-  <!-- Wallet From (always visible) -->
-  <div style="flex:1;">
-    <label for="walletFrom">Wallet From</label>
-    <select id="walletFrom" required style="width:100%;">
-      <option value="">Select…</option>
-      <option value="Alpha">Alpha</option>
-      <option value="Cash">Cash</option>
-      <option value="Black">Black</option>
-    </select>
-  </div>
-
-  <!-- Category (visible for Income/Expense) -->
-  <div id="categoryContainer" style="flex:1;">
-    <label for="category">Category</label>
-    <select id="category" required style="width:100%;">
-      <option value="">Select…</option>
-      <option value="Advertisement">Advertisement</option>
-      <option value="Taxes">Taxes</option>
-      <option value="Bank Fees">Bank Fees</option>
-      <option value="Tools">Tools</option>
-      <option value="Hardware">Hardware</option>
-      <option value="Cost of Business">Cost of Business</option>
-      <option value="Other">Other</option>
-    </select>
-  </div>
-
-  <!-- Wallet To (visible for Transfer only) -->
-  <div id="walletToContainer" style="flex:1; display:none;">
-    <label for="walletTo">Wallet To</label>
-    <select id="walletTo" required style="width:100%;">
-      <option value="">Select…</option>
-      <option value="Alpha">Alpha</option>
-      <option value="Cash">Cash</option>
-      <option value="Black">Black</option>
-    </select>
-  </div>
-</div>
-
-
-  <!-- ROW 4: Description -->
-  <div style="margin-top:0.5rem;">
-    <label for="description">Description</label>
-    <input
-      type="text"
-      id="description"
-      placeholder="Description"
-      required
-      style="width:100%;"
-    />
-  </div>
-
-  <!-- ROW 5: Action Buttons -->
-  <div style="display:flex; gap:0.5rem; margin-top:1rem;">
-    <button type="submit" id="saveNew" style="flex:1;">Save & New</button>
-    <button type="submit" id="saveSame" style="flex:1;">Save & Same</button>
-  </div>
-</form>
-    </div>
-  </div>
-
-<!-- ========== SCRIPT LOGIC ========== -->
   <script>
-    // === FORM + TABLE DOM ELEMENTS ===
-    const form = document.getElementById('transactionForm');
-    const tableBody = document.querySelector('#transactionsTable tbody');
-    let clickedButton = null;
-
-    // === LOAD TRANSACTIONS FROM STORAGE ===
-function loadTransactions() {
-  const data = JSON.parse(localStorage.getItem('transactions')) || [];
-  tableBody.innerHTML = '';
-  data.forEach(tx => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${tx.id}</td>
-      <td>${tx.timestamp}</td>
-      <td>${tx.startDate}</td>
-      <td>${tx.type}</td>
-      <td>${tx.amount}</td>
-      <td>${tx.category || '-'}</td>
-      <td>${tx.walletFrom}${tx.walletTo ? ' → ' + tx.walletTo : ''}</td>
-      <td>${tx.description}</td>
-      <td>${tx.isRecurring ? 'Yes' : 'No'}</td>
-      <td>${tx.endDate || '-'}</td>
-      <td>${
-        tx.isRecurring
-          ? `Every ${tx.repeatEveryNumber} ${tx.repeatEveryUnit}${tx.repeatEveryNumber>1?'s':''}`
-          : '-'
-      }</td>
-    `;
-    tableBody.appendChild(row);
-  });
-}    
-   // === BUTTON CLICK TRACKERS ===
-document.getElementById('saveNew').addEventListener('click', () => {
-  clickedButton = 'new';
-});
-document.getElementById('saveSame').addEventListener('click', () => {
-  clickedButton = 'same';
-});
-
-    // === FORM SUBMIT HANDLER ===
-    form.addEventListener('submit', (e) => {
-      e.preventDefault(); // 🔒 Prevents the default page reload
-
-// Gather core fields
-const transaction = {
-  startDate:   document.getElementById('startDate').value,
-  type:        document.getElementById('type').value,
-  amount:      parseFloat(document.getElementById('amount').value),
-  walletFrom:  document.getElementById('walletFrom').value,
-  walletTo:    document.getElementById('type').value === 'Transfer'
-                  ? document.getElementById('walletTo').value
-                  : null,
-  category:    document.getElementById('type').value !== 'Transfer'
-                  ? document.getElementById('category').value.trim()
-                  : null,
-  description: document.getElementById('description').value.trim(),
-  isRecurring: document.getElementById('isRecurring').checked
-};
-
-// If "Indefinite" is checked, force endDate to 2060-12-31
-if (transaction.isRecurring) {
-  const indefinite = document.getElementById('isIndefinite').checked;
-  transaction.endDate = indefinite
-    ? '2060-12-31'
-    : document.getElementById('endDate').value || null;
-} else {
-  transaction.endDate = null;
-}
-
-      
- // === ADD TIMESTAMP & ID ===
-const now = new Date();
-transaction.timestamp = now.toISOString(); // full ISO timestamp
-const existing = JSON.parse(localStorage.getItem('transactions')) || [];
-const nextNum = existing.length + 1;
-transaction.id = 'T-' + String(nextNum).padStart(9, '0');
-
-// If this is a recurring transaction, capture the extra fields
-    if (transaction.repeatability === 'Recurring') {
-      transaction.isRecurring       = true;
-      transaction.endDate           = document.getElementById('endDate').value || null;
-      transaction.repeatEveryNumber = parseInt(document.getElementById('repeatEveryNumber').value, 10);
-      transaction.repeatEveryUnit   = document.getElementById('repeatEveryUnit').value;
-    } else {
-      transaction.isRecurring       = false;
-      transaction.endDate           = null;
-      transaction.repeatEveryNumber = null;
-      transaction.repeatEveryUnit   = null;
-}
-
-  // 📦 Save to local storage
-      
-        const data = JSON.parse(localStorage.getItem('transactions')) || [];
-          data.push(transaction);
-          localStorage.setItem('transactions', JSON.stringify(data));
-
-  // 🔁 Reload the updated table
-      
-        loadTransactions();
-
-// 🧠 Check which Save button was clicked
-if (clickedButton === 'new') {
-  // Save & New: reset form, keep popup open
-  form.reset();
-  // refill start date
-  document.getElementById('startDate').value = new Date().toISOString().split('T')[0];
-  // hide recurring controls
-  document.getElementById('endDateContainer').style.display = 'none';
-  document.getElementById('isIndefiniteContainer').style.display = 'none';
-} else if (clickedButton === 'same') {
-  // Save & Same: do nothing, keep fields intact
-}
-// clear the tracker
-clickedButton = null;
-});
-
-    // === PAGE SWITCHING ===
+    // PAGE SWITCHER
     function goTo(page) {
-      const sections = document.querySelectorAll('main > section');
-      sections.forEach(sec => sec.classList.remove('active'));
-
-      const pageMap = {
+      document.querySelectorAll('main > section').forEach(s=>s.classList.remove('active'));
+      const map = {
         home: 'homePage',
+        recurring: 'recurringPage',
         transactions: 'transactionsPage',
         projects: 'projectsPage',
         projection: 'projectionPage',
         options: 'optionsPage'
       };
-
-      const targetId = pageMap[page];
-      if (targetId) {
-        document.getElementById(targetId).classList.add('active');
-      }
+      document.getElementById(map[page]).classList.add('active');
     }
-    
-// === POPUP CONTROL ===
-    
- function openPopup() {
-  document.getElementById("popup").style.display = "flex";
 
-  // Reset form fields
-  form.reset();
+    // POPUP CONTROLS
+    function openRecPopup() {
+      document.getElementById('recurringPopup').style.display = 'flex';
+      document.getElementById('recurringForm').reset();
+    }
+    function closeRecPopup() {
+      document.getElementById('recurringPopup').style.display = 'none';
+    }
 
-  // Reset Category/Wallet To visibility
-document.getElementById('categoryContainer').style.display    = 'block';
-document.getElementById('category').required                   = true;
-document.getElementById('walletToContainer').style.display     = 'none';
-document.getElementById('walletTo').required                   = false;
-   
-  // Auto-fill today's date
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById("startDate").value = today;
+    // STUB: loadRecurring (we’ll flesh this next)
+    function loadRecurring() {
+      // TODO: read from localStorage, populate #recurringTable tbody
+    }
 
-  // Hide recurring details until user selects it
-  document.getElementById("repeatability").value = "";
-  document.getElementById("recurringFields").style.display = "none";
-}
-      function closePopup() {
-        document.getElementById("popup").style.display = "none";
-      }
-    
-// === TOGGLE END DATE & INDEFINITE VISIBILITY ===
-document.getElementById('isRecurring').addEventListener('change', function() {
-  const show = this.checked;
-  document.getElementById('endDateContainer').style.display = show ? 'block' : 'none';
-  document.getElementById('isIndefiniteContainer').style.display = show ? 'block' : 'none';
-  if (!show) document.getElementById('isIndefinite').checked = false;
-});
-
-document.getElementById('isIndefinite').addEventListener('change', function() {
-  const endDate = document.getElementById('endDate');
-  if (this.checked) {
-    endDate.value = '2060-12-31';
-    endDate.disabled = true;
-  } else {
-    endDate.value = '';
-    endDate.disabled = false;
-  }
-});
-
-// === TOGGLE Category vs. Wallet To based on Type ===
-document.getElementById('type').addEventListener('change', function() {
-  const categoryContainer = document.getElementById('categoryContainer');
-  const walletToContainer  = document.getElementById('walletToContainer');
-  const categorySelect    = document.getElementById('category');
-  const walletToSelect    = document.getElementById('walletTo');
-
-  if (this.value === 'Transfer') {
-    // For transfers: hide Category, show Wallet To
-    categoryContainer.style.display    = 'none';
-    categorySelect.required            = false;
-    walletToContainer.style.display    = 'block';
-    walletToSelect.required            = true;
-  } else {
-    // For income/expense: show Category, hide Wallet To
-    categoryContainer.style.display    = 'block';
-    categorySelect.required            = true;
-    walletToContainer.style.display    = 'none';
-    walletToSelect.required            = false;
-  }
-});
-
-// === INITIAL LOAD ===
+    // INITIAL LOAD
     window.addEventListener('DOMContentLoaded', () => {
-      loadTransactions();
-      goTo('transactions');
+      goTo('recurring');   // jump to Recurring by default
+      loadRecurring();
     });
   </script>
 
